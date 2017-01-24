@@ -5,7 +5,9 @@ MAINTAINER DI GREGORIO Nicolas <nicolas.digregorio@gmail.com>
 ### Environment variables
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
-    TERM='xterm' 
+    TERM='xterm' \
+    PGDATA='/var/lib/postgresql/data' \
+    PG_VERSION='9.6'
 
 ### Install Application
 RUN apk upgrade --no-cache && \
