@@ -13,6 +13,7 @@ RUN apk upgrade --no-cache && \
       tzdata \
       bash \
       postgresql && \
+    mkdir /docker-entrypoint-initdb.d && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
            /var/tmp/*
