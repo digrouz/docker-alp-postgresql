@@ -11,6 +11,7 @@ ENV LANG='en_US.UTF-8' \
 RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=run-deps \
       tzdata \
+      bash \
       postgresql && \
     rm -rf /tmp/* \
            /var/cache/apk/*  \
