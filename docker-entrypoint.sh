@@ -55,13 +55,13 @@ ConfigureUser () {
   fi
   if ! /bin/grep -q "${MYUSER}" /etc/group; then
     /usr/bin/logger "Creating group: ${MYUSER}"
-    /usr/sbin/addgroup --system --gid "${MYGID}" "${MYUSER}"
+    /usr/sbin/addgroup -S -g "${MYGID}" "${MYUSER}"
   else
     /usr/bin/logger "Group: ${MYUSER} already configured"
   fi
   if ! /bin/grep -q "${MYUSER}" /etc/passwd; then
     /usr/bin/logger "Creating user: ${MYUSER}"
-    /usr/sbin/adduser --system --shell /sbin/nologin --gid "${MYGID}" --home "${OLDHOME}" --uid "${MYUID}" "${MYUSER}"
+    /usr/sbin/adduser -S -D -H -s /sbin/nologin -G "${MYUSER}" -h "${OLDHOME}" -u "${MYUID}" "${MYUSER}"
   else
     /usr/bin/logger "User: ${MYUSER} already configured"
   fi
