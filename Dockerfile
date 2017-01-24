@@ -14,6 +14,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual=run-deps \
       tzdata \
       bash \
+      su-exec \
       postgresql && \
     mkdir /docker-entrypoint-initdb.d && \
     rm -rf /tmp/* \
