@@ -10,7 +10,6 @@ ENV LANG='en_US.UTF-8' \
 
 ### Install Application
 RUN yum update -y && \
-<<<<<<< HEAD
     yum-config-manager  --save --setopt=base.exclude=postgresql* && \
     yum-config-manager  --save --setopt=updates.exclude=postgresql* && \
     curl -L https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm -o /tmp/pgrepo.rpm && \
@@ -22,13 +21,6 @@ RUN yum update -y && \
     make && \
     cp su-exec /usr/local/bin/su-exec && \
     yum history undo --last && \
-=======
-    apk add --no-cache --virtual=run-deps \
-      tzdata \
-      bash \
-      su-exec \
-      postgresql && \
->>>>>>> 9fb9ad6855a38e920df15351a945c31147cbda43
     mkdir /docker-entrypoint-initdb.d && \
     yum clean all && \
     rm -rf /tmp/* \
