@@ -16,7 +16,7 @@ RUN yum update -y && \
     yum localinstall -y /tmp/pgrepo.rpm && \
     yum install -y postgresql96-server && \
     yum install -y gcc git make && \
-    git clone https://github.com/ncopa/su-exec /tmp/su-exec && \
+    git clone --depth 1 https://github.com/ncopa/su-exec /tmp/su-exec && \
     cd /tmp/su-exec && \
     make && \
     cp su-exec /usr/local/bin/su-exec && \
