@@ -6,8 +6,8 @@ ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
     PG_VERSION='9.6' \
-    PATH='/usr/pgsql-$PG_VERSION/bin:$PATH' \
-    PGDATA='/var/lib/pgsql/$PG_VERSION/data' 
+    PATH="/usr/pgsql-$PG_VERSION/bin:$PATH" \
+    PGDATA="/var/lib/pgsql/$PG_VERSION/data" 
 
 ### Install Application
 RUN yum update -y && \
