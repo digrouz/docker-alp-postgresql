@@ -13,7 +13,7 @@ http://postgresql.org/
 ## Usage
     docker create --name=postgres  \
       -v /etc/localtime:/etc/localtime:ro \ 
-     -v <path to data>:/var/lib/postgresql/data \
+      -v <path to data>:/var/lib/pgsql/9.6/data \
       -e DOCKUID=<UID default:10014> \
       -e DOCKGID=<GID default:10014> \
       -e DOCKUPGRADE=<0|1> \
