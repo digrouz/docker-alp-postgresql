@@ -35,7 +35,7 @@ VOLUME ["/var/lib/pgsql/${PG_VERSION}/data"]
 EXPOSE 5432
 
 ### Running User: not used, managed by docker-entrypoint.sh
-#USER postgres
+USER root
 
 ### Start postgres
 COPY ./docker-entrypoint.sh /
