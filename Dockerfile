@@ -15,7 +15,7 @@ RUN yum update -y && \
     yum-config-manager --save --setopt=updates.exclude=postgresql* && \
     curl -L https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm -o /tmp/pgrepo.rpm && \
     yum localinstall -y /tmp/pgrepo.rpm && \
-    yum install -y postgresql96-server && \
+    yum install -y postgresql96-server pgloader && \
     yum install -y gcc git make && \
     git clone --depth 1 https://github.com/ncopa/su-exec /tmp/su-exec && \
     cd /tmp/su-exec && \
