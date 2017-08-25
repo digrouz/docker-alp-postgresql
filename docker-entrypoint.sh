@@ -20,9 +20,8 @@ DectectOS(){
 }
 
 AutoUpgrade(){
-  if [ -s  /var/run/secrets/DOCKUPGRADE ]; then
-    MYUPGRADE=$(cat /var/run/secrets/DOCKUPGRADE)
-  elif [ -n "${DOCKUPGRADE}" ]; then
+  file_env 'DOCKUPGRADE'
+  if [ -n "${DOCKUPGRADE}" ]; then
     MYUPGRADE="${DOCKUPGRADE}"
   fi
   if [ "${MYUPGRADE}" ]; then
