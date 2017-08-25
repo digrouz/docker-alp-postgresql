@@ -78,6 +78,7 @@ ConfigureUser () {
   local OLDHOME
   local OLDGID
   local OLDUID
+  
   if grep -q "${MYUSER}" /etc/passwd; then
     OLDUID=$(id -u "${MYUSER}")
     if [ "${DOCKUID}" != "${OLDUID}" ]; then
@@ -123,12 +124,12 @@ ConfigureUser () {
   fi
   if [ -n "${OLDUID}" ] && [ "${DOCKUID}" != "${OLDUID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \;
+    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \; 2>&1 /dev/null
     logger "... done!"
   fi
   if [ -n "${OLDGID}" ] && [ "${DOCKGID}" != "${OLDGID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \;
+    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \; 2>&1 /dev/null
     logger "... done!"
   fi
 }
@@ -149,8 +150,15 @@ if [ "$1" = 'postgres' ] && [ "$(id -u)" = '0' ]; then
 
 	mkdir -p /var/run/postgresql
 	chown -R postgres /var/run/postgresql
-	chmod g+s /var/run/postgresql
+	chmod 775 /var/run/postgresql
 
+  # Create the transaction log directory before initdb is run (below) so the directory is owned by the correct user
+	if [ "$POSTGRES_INITDB_XLOGDIR" ]; then
+		mkdir -p "$POSTGRES_INITDB_XLOGDIR"
+		chown -R postgres "$POSTGRES_INITDB_XLOGDIR"
+		chmod 700 "$POSTGRES_INITDB_XLOGDIR"
+	fi
+  
 	exec su-exec postgres "$BASH_SOURCE" "$@"
 fi
 
@@ -162,6 +170,9 @@ if [ "$1" = 'postgres' ]; then
 	# look specifically for PG_VERSION, as it is expected in the DB dir
 	if [ ! -s "$PGDATA/PG_VERSION" ]; then
 		file_env 'POSTGRES_INITDB_ARGS'
+		if [ "$POSTGRES_INITDB_XLOGDIR" ]; then
+			export POSTGRES_INITDB_ARGS="$POSTGRES_INITDB_ARGS --xlogdir $POSTGRES_INITDB_XLOGDIR"
+		fi
 		eval "initdb --username=postgres $POSTGRES_INITDB_ARGS"
 
 		# check password first so we can output the warning before postgres
@@ -190,7 +201,10 @@ if [ "$1" = 'postgres' ]; then
 			authMethod=trust
 		fi
 
-		{ echo; echo "host all all all $authMethod"; } | tee -a "$PGDATA/pg_hba.conf" > /dev/null
+		{
+			echo
+			echo "host all all all $authMethod"
+		} >> "$PGDATA/pg_hba.conf"
 
 		# internal start of server in order to allow set-up using psql-client		
 		# does not listen on external TCP/IP and waits until start finishes
