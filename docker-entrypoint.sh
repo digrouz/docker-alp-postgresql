@@ -20,6 +20,7 @@ DectectOS(){
 }
 
 AutoUpgrade(){
+  file_env 'DOCKUPGRADE'
   if [ -n "${DOCKUPGRADE}" ]; then
     MYUPGRADE="${DOCKUPGRADE}"
   fi
