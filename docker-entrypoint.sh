@@ -124,12 +124,12 @@ ConfigureUser () {
   fi
   if [ -n "${OLDUID}" ] && [ "${DOCKUID}" != "${OLDUID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \; 2>&1 /dev/null
+    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \; &> /dev/null
     logger "... done!"
   fi
   if [ -n "${OLDGID}" ] && [ "${DOCKGID}" != "${OLDGID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \; 2>&1 /dev/null
+    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \; &> /dev/null
     logger "... done!"
   fi
 }
